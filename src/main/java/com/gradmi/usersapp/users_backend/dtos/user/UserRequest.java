@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record UserData (
+public record UserRequest(
     @NotBlank
     String name,
 
@@ -19,10 +19,7 @@ public record UserData (
     @Size(min = 6, max = 12)
     String username,
 
-    @NotBlank
-    String password,
-
     boolean isAdmin
-) implements IUser{
+) implements IUser {
 
 }

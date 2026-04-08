@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gradmi.usersapp.users_backend.dtos.user.UserData;
+import com.gradmi.usersapp.users_backend.dtos.user.UserRequest;
 import com.gradmi.usersapp.users_backend.entities.User;
 import com.gradmi.usersapp.users_backend.services.UserService;
 
@@ -61,28 +62,21 @@ public class UserController {
     
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody UserData user, BindingResult result) {
-        User userToSave = new User(user);
         if(result.hasErrors()){
             return validation(result);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(userToSave));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody UserRequest user, BindingResult result) {
         if(result.hasErrors()){
             return validation(result);
         }
-        Optional<User> userOptional = service.findById(id);
+        Optional<User> userOptional = service.update(user, id);
         if(userOptional.isPresent()){
-            User userToModify = userOptional.get();
-            userToModify.setName(user.getName());
-            userToModify.setLastName(user.getLastName());
-            userToModify.setEmail(user.getEmail());
-            userToModify.setUserName(user.getUserName());
-            userToModify.setPassword(user.getPassword());
-            return ResponseEntity.ok(service.save(userToModify));
-        }        
+            return ResponseEntity.ok(userOptional.orElseThrow());
+        }
         return ResponseEntity.notFound().build();
     }
 
