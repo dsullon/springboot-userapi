@@ -22,7 +22,7 @@ public record UserData (
     @NotBlank
     String password,
 
-    boolean isAdmin
+    Boolean isAdmin
 ) implements IUser{
 
 }

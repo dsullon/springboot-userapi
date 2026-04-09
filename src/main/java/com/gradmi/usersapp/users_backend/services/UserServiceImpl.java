@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         List<Role> roles = new ArrayList<>();
         Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
         optionalRoleUser.ifPresent(roles::add);
-        if(data.isAdmin()){
+        if(Boolean.TRUE.equals(data.isAdmin())){
             Optional<Role> optionalRoleAdmin = roleRepository.findByName("ROLE_ADMIN");
             optionalRoleAdmin.ifPresent(roles::add);
         }

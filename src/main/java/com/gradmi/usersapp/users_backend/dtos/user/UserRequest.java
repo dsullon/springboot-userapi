@@ -19,7 +19,7 @@ public record UserRequest(
     @Size(min = 6, max = 12)
     String username,
 
-    boolean isAdmin
+    Boolean isAdmin
 ) implements IUser {
 
 }
